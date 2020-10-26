@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def archive_log() {
+def call() {
   script {
     withCredentials([usernamePassword(credentialsId: 'azure-storage', usernameVariable: 'AZURE_STORAGE_ACCOUNT', passwordVariable: 'AZURE_STORAGE_KEY')]) {
       def log = currentBuild.rawBuild.getLog()
