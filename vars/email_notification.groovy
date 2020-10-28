@@ -1,6 +1,8 @@
 #!/usr/bin/env groovy
 
 def call(buildStatus, emailRecipients) {
+  try {
+
   def icon = "✅"
   def statusSuccess = true
   def hasApproval   = true
@@ -13,7 +15,11 @@ def call(buildStatus, emailRecipients) {
     body = "Job Failed - \"${env.JOB_NAME}\" build: ${env.BUILD_NUMBER}\n\nView the log at:\n $logUrl"
   }
 
-  mail to: emailRecipients,
-  subject: "Example Build: ${env.JOB_NAME} - Success",
-  body: body,
+  mail to: emailRecipients.join(","),
+       subject: "Example Build: ${env.JOB_NAME} - Success",
+       body: body
+       
+  } catch (e){
+      println "ERROR SENDING EMAIL ${e}"
+  }
 }

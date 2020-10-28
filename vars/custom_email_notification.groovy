@@ -43,7 +43,7 @@ def call(buildStatus, emailRecipients) {
             "apporovalUrl"  :   env.BUILD_URL + 'consoleText',
         ]);
 
-        mail to: emailRecipients,
+        mail to: emailRecipients.join(","),
             from: "jenkins-noreply@example.com",
             subject: "${icon} [ ${env.JOB_NAME} ] [${env.BUILD_NUMBER}] - ${buildStatus} ",
             body: body,
