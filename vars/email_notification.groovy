@@ -1,56 +1,19 @@
-#!groovy
+#!/usr/bin/env groovy
 
-package workflowlibs.manager;
-
-import groovy.text.StreamingTemplateEngine
-
-/**
- * This method returns a string with the template filled with groovy variables
- */
-def emailTemplate(params) {
-
-    def fileName = "email.html.groovy"
-    def fileContents = libraryResource(fileName)
-    def engine = new StreamingTemplateEngine()
-
-    return engine.createTemplate(fileContents).make(params).toString()
-}
-
-/**
- * This method send an email generated with data from Jenkins
- * @param buildStatus String with job result
- * @param emailRecipients Array with emails: emailRecipients = []
- */
 def call(buildStatus, emailRecipients) {
+  def icon = "✅"
+  def statusSuccess = true
+  def hasApproval   = true
+  def logUrl        = env.BUILD_URL + 'consoleText'
+  def body = "Job Success - \"${env.JOB_NAME}\" build: ${env.BUILD_NUMBER}\n\nView the log at:\n $logUrl\n\nApprove this deployment:\n${env.RUN_DISPLAY_URL}"
 
-    try {
+  if(buildStatus != "SUCCESSFUL") {
+    icon = "❌"
+    statusSuccess = false
+    body = "Job Failed - \"${env.JOB_NAME}\" build: ${env.BUILD_NUMBER}\n\nView the log at:\n $logUrl"
+  }
 
-        def icon = "✅"
-        def statusSuccess = true
-        def hasApproval = true
-
-        if(buildStatus != "SUCCESSFUL") {
-            icon = "❌"
-            statusSuccess = false
-            hasApproval = false
-        }
-
-        def body = emailTemplate([
-            "jenkinsText"   :   env.JOB_NAME,
-            "jenkinsUrl"    :   env.BUILD_URL,
-            "statusSuccess" :   statusSuccess,
-            "hasApproval"   :   hasApproval,
-            "apporovalUrl"  :   env.BUILD_URL + 'consoleText',
-        ]);
-
-        mail to: emailRecipients,
-            from: "jenkins-noreply@example.com",
-            subject: "${icon} [ ${env.JOB_NAME} ] [${env.BUILD_NUMBER}] - ${buildStatus} ",
-            body: body,
-            mimeType: 'text/html'
-
-
-    } catch (e){
-        println "ERROR SENDING EMAIL ${e}"
-    }
+  mail to: emailRecipients,
+  subject: "Example Build: ${env.JOB_NAME} - Success",
+  body: body,
 }
