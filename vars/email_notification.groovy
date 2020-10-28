@@ -16,9 +16,9 @@ def call(buildStatus, emailRecipients) {
   }
 
   mail to: emailRecipients.join(","),
-       subject: "Example Build: ${env.JOB_NAME} - Success",
+       subject: "${icon} [ ${env.JOB_NAME} ] [${env.BUILD_NUMBER}] - ${buildStatus} ",
        body: body
-       
+
   } catch (e){
       println "ERROR SENDING EMAIL ${e}"
   }

@@ -20,6 +20,11 @@
         </td>
       </tr>
       <tr>
+        <td colspan="4" style="display:inline;letter-spacing:1px;font-weight:700;font-size:24px;line-height:30px;font-family:Lato-Bold,Helvetica;padding-right:24px">
+          ${statusSuccess ? "" : ""}
+        </td>
+      </tr>
+      <tr>
         <td colspan="1" style="height: 10px; width: 30px"></td>
         <td colspan="2" style="height: 10px;"></td>
         <td colspan="3" style="height: 10px;"></td>
