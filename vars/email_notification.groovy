@@ -27,27 +27,28 @@ def call(buildStatus, emailRecipients) {
 
         def icon = "✅"
         def statusSuccess = true
-        def hasArtifacts = true
+        def hasApproval = true
 
         if(buildStatus != "SUCCESSFUL") {
             icon = "❌"
             statusSuccess = false
-            hasArtifacts = false
+            hasApproval = false
         }
 
         def body = emailTemplate([
             "jenkinsText"   :   env.JOB_NAME,
             "jenkinsUrl"    :   env.BUILD_URL,
             "statusSuccess" :   statusSuccess,
-            "hasArtifacts"  :   hasArtifacts,
-            "downloadUrl"   :   "www.downloadurl.com"
+            "hasApproval"   :   hasApproval,
+            "apporovalUrl"  :   env.BUILD_URL + 'consoleText',
         ]);
 
-        mail (to: emailRecipients.join(","),
+        mail to: emailRecipients,
+            from: "jenkins-noreply@example.com",
             subject: "${icon} [ ${env.JOB_NAME} ] [${env.BUILD_NUMBER}] - ${buildStatus} ",
             body: body,
             mimeType: 'text/html'
-        );
+
 
     } catch (e){
         println "ERROR SENDING EMAIL ${e}"
