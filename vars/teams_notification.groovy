@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def call(buildStatus, emailRecipients, customBody="", hasApproval=false) {
+def call(buildStatus, customBody="", hasApproval=false) {
   try {
 
   def icon = "✅"
