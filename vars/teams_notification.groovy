@@ -7,10 +7,6 @@ def call(buildStatus, customBody="", hasApproval=false) {
   def message       = customBody
   def color         = "05b222"
 
-  if (message == "") {
-    message = "${icon} started ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-  }
-
   if(buildStatus != "SUCCESSFUL") {
     icon    = "❌"
     status  = "Job Failed"
@@ -23,6 +19,10 @@ def call(buildStatus, customBody="", hasApproval=false) {
     else {
       status  = "Job Success"
     }
+  }
+
+  if (message == "") {
+    message = "${icon} started ${env.JOB_NAME} ${env.BUILD_NUMBER}"
   }
 
   office365ConnectorSend message: message,
