@@ -21,13 +21,12 @@ def emailTemplate(params) {
  * @param buildStatus String with job result
  * @param emailRecipients Array with emails: emailRecipients = []
  */
-def call(buildStatus, emailRecipients) {
+def call(buildStatus, emailRecipients, hasApproval=false) {
 
     try {
 
         def icon = "✅"
         def statusSuccess = true
-        def hasApproval = true
 
         if(buildStatus != "SUCCESSFUL") {
             icon = "❌"

@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def call(buildStatus, emailRecipients, customBody="") {
+def call(buildStatus, emailRecipients, customBody="", hasApproval=false) {
   try {
 
   def icon = "✅"
@@ -19,7 +19,12 @@ def call(buildStatus, emailRecipients, customBody="") {
     body = "Job Failed - $content"
   }
   else {
-    body = "Job Success - $content\n\nApprove this deployment:\n${env.RUN_DISPLAY_URL}"
+    if (hasApproval) {
+      body = "Job Success - $content\n\nApprove this deployment:\n${env.RUN_DISPLAY_URL}"
+    }
+    else {
+      body = "Job Success - $content"
+    }
   }
 
   mail to: emailRecipients.join(","),
