@@ -28,7 +28,7 @@ def call(buildStatus, customBody="", hasApproval=false) {
   office365ConnectorSend message: message,
                          status: status,
                          color: color,
-                         webhookUrl: ${env.TEAMS_WEBHOOK_URL}
+                         webhookUrl: "${env.TEAMS_WEBHOOK_URL}"
 
 
   } catch (e){
