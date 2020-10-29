@@ -1,18 +1,27 @@
 #!/usr/bin/env groovy
 
-def call(buildStatus, emailRecipients) {
+def call(buildStatus, emailRecipients, customBody="") {
   try {
 
   def icon = "✅"
   def statusSuccess = true
   def hasApproval   = true
   def logUrl        = env.BUILD_URL + 'consoleText'
-  def body = "Job Success - \"${env.JOB_NAME}\" build: ${env.BUILD_NUMBER}\n\nView the log at:\n $logUrl\n\nApprove this deployment:\n${env.RUN_DISPLAY_URL}"
+
+  if (customBody != "") {
+    def content = customBody
+  }
+  else {
+    def content = "\"${env.JOB_NAME}\" build: ${env.BUILD_NUMBER}\n\nView the log at:\n $logUrl"
+  }
 
   if(buildStatus != "SUCCESSFUL") {
     icon = "❌"
     statusSuccess = false
-    body = "Job Failed - \"${env.JOB_NAME}\" build: ${env.BUILD_NUMBER}\n\nView the log at:\n $logUrl"
+    body = "Job Failed - $content"
+  }
+  else {
+    body = "Job Success - $content\n\nApprove this deployment:\n${env.RUN_DISPLAY_URL}"
   }
 
   mail to: emailRecipients.join(","),
