@@ -31,7 +31,7 @@ def call(buildStatus, emailRecipients, hasApproval=false) {
         if(buildStatus != "SUCCESSFUL") {
             icon = "❌"
             statusSuccess = false
-            hasApproval = false
+            hasApproval   = false
         }
 
         def body = emailTemplate([

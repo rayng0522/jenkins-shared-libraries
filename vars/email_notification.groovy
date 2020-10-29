@@ -15,8 +15,8 @@ def call(buildStatus, emailRecipients, customBody="", hasApproval=false) {
 
   if(buildStatus != "SUCCESSFUL") {
     icon = "❌"
-    statusSuccess = false
     body = "Job Failed - $content"
+    statusSuccess = false
   }
   else {
     if (hasApproval) {
