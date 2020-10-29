@@ -4,7 +4,6 @@ def call(buildStatus, customBody="", hasApproval=false) {
   try {
 
   def icon = "✅"
-  // def logUrl     = env.BUILD_URL + 'consoleText'
   def message       = customBody
   def color         = "05b222"
 
