@@ -5,7 +5,6 @@ def call(buildStatus, emailRecipients, customBody="", hasApproval=false) {
 
   def icon = "✅"
   def statusSuccess = true
-  def hasApproval   = true
   def logUrl        = env.BUILD_URL + 'consoleText'
   def content       = customBody
 
