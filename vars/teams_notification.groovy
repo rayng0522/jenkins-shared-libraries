@@ -22,7 +22,7 @@ def call(buildStatus, customBody="", hasApproval=false) {
   }
 
   if (message == "") {
-    message = "${icon} started ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+    message = "${icon} started ${env.JOB_NAME} and Build# ${env.BUILD_NUMBER}"
   }
 
   office365ConnectorSend message: message,
