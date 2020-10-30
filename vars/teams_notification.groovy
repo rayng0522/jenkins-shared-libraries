@@ -14,7 +14,7 @@ def call(buildStatus, customBody="", hasApproval=false) {
   }
   else {
     if (hasApproval) {
-      status  = "Job Success - Approve this deployment: ${env.RUN_DISPLAY_URL}"
+      status  = "Job Success - Approve this deployment: [click me](${env.RUN_DISPLAY_URL})"
     }
     else {
       status  = "Job Success"
