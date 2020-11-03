@@ -19,7 +19,7 @@ def call(String name = 'jenkins') {
       env.AZURE_STORAGE_ACCOUNT = storage_account_name.last()
       def log = currentBuild.rawBuild.getLog()
       writeFile(file: 'buildlog.txt', text: log)
-      env.CONTAINER = 'jenkinsarchivelogs'
+      env.CONTAINER = name
       sh (script: 'az storage container create -n ${CONTAINER}', returnStdout: true)
       sh (script: 'az storage blob upload -c ${CONTAINER} -f ./buildlog.txt -n ${JOB_NAME}/${BUILD_NUMBER}.txt', returnStdout: true)
     }
