@@ -1,8 +1,21 @@
 #!/usr/bin/env groovy
+def VAULT_ADDR = 'https://vault.pru.intranet.asia'
+def VAULT_APPROLE = 'apr-rtsre-all-admin-jenkinshcf'
+def VAULT_CONFIGURATION = [
+    $class: 'VaultConfiguration',
+    vaultUrl: "${VAULT_ADDR}",
+    vaultCredentialId: "${VAULT_APPROLE}"
+]
+def secrets = [
+    [path: 'kv2/sgrtss/nprd/dev/t3stan/stasgrtssdevaz1t3stan001', engineVersion: 1, secretValues: [
+        [envVar: 'AZURE_STORAGE_ACCOUNT', vaultKey: 'storage_account_name'],
+        [envVar: 'AZURE_STORAGE_KEY', vaultKey: 'primary_key']]]
+]
 
 def call(String name = 'jenkins') {
   script {
-    withCredentials([usernamePassword(credentialsId: 'azure-storage', usernameVariable: 'AZURE_STORAGE_ACCOUNT', passwordVariable: 'AZURE_STORAGE_KEY')]) {
+    // inside this block your credentials will be available as env variables
+    withVault([configuration: configuration, vaultSecrets: secrets]) {
       def log = currentBuild.rawBuild.getLog()
       writeFile(file: 'buildlog.txt', text: log)
       env.CONTAINER = name
