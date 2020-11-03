@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 def VAULT_ADDR = 'https://vault.pru.intranet.asia'
 def VAULT_APPROLE = 'apr-rtsre-all-admin-jenkinshcf'
-def VAULT_CONFIGURATION = [
+def configuration = [
     $class: 'VaultConfiguration',
     vaultUrl: "${VAULT_ADDR}",
     vaultCredentialId: "${VAULT_APPROLE}"
@@ -15,7 +15,6 @@ def secrets = [
 def call(String name = 'jenkins') {
   script {
     // inside this block your credentials will be available as env variables
-    def configuration = VAULT_CONFIGURATION
     withVault([configuration: configuration, vaultSecrets: secrets]) {
       def storage_account_name = env.AZURE_ACCOUNT_ID.split('/')
       env.AZURE_STORAGE_ACCOUNT = storage_account_name.last()
