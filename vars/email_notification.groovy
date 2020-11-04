@@ -5,7 +5,9 @@ def call(buildStatus, emailRecipients, customBody="", hasApproval=false) {
 
   def icon = "✅"
   def statusSuccess = true
-  def logUrl        = env.BUILD_URL + 'consoleText'
+  // def logUrl        = env.BUILD_URL + 'consoleText'
+  def logUrl        = env.RUN_DISPLAY_URL
+  def approvalUrl   = env.BUILD_URL + 'input'
   def content       = customBody
 
   if (content == "") {
@@ -19,7 +21,7 @@ def call(buildStatus, emailRecipients, customBody="", hasApproval=false) {
   }
   else {
     if (hasApproval) {
-      body = "Job Success - $content\n\nApprove this deployment:\n${env.RUN_DISPLAY_URL}"
+      body = "Job Success - $content\n\nApprove this deployment:\n$approvalUrl"
     }
     else {
       body = "Job Success - $content"
