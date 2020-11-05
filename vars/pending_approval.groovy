@@ -3,7 +3,7 @@ def call() {
   def userInput
   try {
       userInput = input(
-          id: 'Proceed1', message: "Approve \"${env.JOB_NAME}\" Build#${env.BUILD_NUMBER} ?", parameters: [
+          id: 'Proceed1', message: "Approve Build#${env.BUILD_NUMBER} ?", parameters: [
           [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']
           ])
   } catch(err) { // input false
